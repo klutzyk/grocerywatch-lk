@@ -2,7 +2,7 @@
 
 Grocerywatch.lk is a portfolio-quality data science web app for exploring Sri Lankan food price movement. It opens directly into a working dashboard for commodity trends, market comparison, anomaly alerts, short-range forecasts, and a household staple basket estimate.
 
-The product direction is a grocery intelligence dashboard: a dark navigation rail, clean analytics cards, rounded food-product surfaces, and a light teal/orange/red grocery palette.
+The product direction is a restrained grocery intelligence dashboard: white workspace, dark navigation rail, neutral analytics panels, product-style price cards with food icons, and a small accent palette used only for navigation, chart emphasis, and alerts.
 
 ## Why This Matters
 

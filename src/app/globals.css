@@ -3,14 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: #eef6df;
-  --foreground: #11130d;
-  --market-ink: #171426;
-  --leaf: #145241;
-  --pool: #0e7c83;
-  --jak: #ef8a17;
-  --hibiscus: #c92d4b;
-  --paper: #fffdf5;
+  --background: #ffffff;
+  --foreground: #101114;
+  --ink: #111827;
+  --muted: #667085;
+  --line: #e6e9ef;
+  --panel: #ffffff;
+  --accent: #176b87;
+  --warm: #f59e0b;
+  --danger: #d92d20;
 }
 
 * {
@@ -27,12 +28,7 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: var(--font-sans), "Aptos", "Segoe UI", sans-serif;
-  background:
-    linear-gradient(120deg, rgba(20, 82, 65, 0.08) 0 1px, transparent 1px 18px),
-    radial-gradient(circle at 12% 10%, rgba(239, 138, 23, 0.18), transparent 28rem),
-    radial-gradient(circle at 92% 2%, rgba(14, 124, 131, 0.18), transparent 24rem),
-    #eef6df;
-  background-size: 18px 18px, auto, auto, auto;
+  background: #ffffff;
 }
 
 button,
@@ -42,21 +38,21 @@ select {
 }
 
 ::selection {
-  background: rgba(39, 137, 167, 0.22);
+  background: rgba(23, 107, 135, 0.16);
 }
 
 .chart-grid line {
-  stroke: #e8eff9;
+  stroke: var(--line);
 }
 
 .recharts-cartesian-axis-tick text {
-  fill: #7d8aaa;
+  fill: var(--muted);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .recharts-tooltip-cursor {
-  fill: rgba(14, 124, 131, 0.08);
+  fill: rgba(23, 107, 135, 0.05);
 }
 
 .focus-ring {
@@ -65,9 +61,5 @@ select {
 }
 
 .focus-ring:focus-visible {
-  outline-color: #ef8a17;
-}
-
-.font-display {
-  font-family: var(--font-display), Georgia, serif;
+  outline-color: var(--accent);
 }

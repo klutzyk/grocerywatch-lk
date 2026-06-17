@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import { Epilogue, Fraunces } from "next/font/google";
+import { Commissioner } from "next/font/google";
 import "./globals.css";
 
-const sans = Epilogue({
+const sans = Commissioner({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
-  display: "swap"
-});
-
-const display = Fraunces({
-  subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
-  variable: "--font-display",
   display: "swap"
 });
 
@@ -31,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${sans.variable} ${display.variable}`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={sans.variable}>{children}</body>
     </html>
   );
 }

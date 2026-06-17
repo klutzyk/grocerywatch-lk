@@ -82,7 +82,20 @@ const NAV_ITEMS = [
   { tab: "Method", label: "Method", icon: Database }
 ] as const;
 
-const GROCERY_COLORS = ["#12164a", "#ff981f", "#2789a7", "#ff7a82", "#b7cbff", "#22c55e"];
+const GROCERY_COLORS = ["#111827", "#176b87", "#f59e0b", "#d92d20", "#7a8f3a", "#475467"];
+
+const FOOD_ICONS: Record<FoodItem, string> = {
+  Rice: "🍚",
+  Dhal: "🫘",
+  Coconut: "🥥",
+  Eggs: "🥚",
+  Chicken: "🍗",
+  Fish: "🐟",
+  Flour: "🌾",
+  Sugar: "◻",
+  "Milk Powder": "🥛",
+  Onion: "🧅"
+};
 
 function cn(...classes: Array<string | false | null | undefined>): string {
   return classes.filter(Boolean).join(" ");
@@ -105,21 +118,21 @@ function PriceTooltip({ active, payload, label }: TooltipProps<number, string>) 
   }
 
   return (
-    <div className="rounded-2xl border border-[#dce6f6] bg-white px-4 py-3 text-xs shadow-[0_18px_50px_rgba(18,22,74,0.14)]">
-      <p className="mb-2 font-bold text-[#12142e]">{label}</p>
+    <div className="rounded-2xl border border-[#e6e9ef] bg-white px-4 py-3 text-xs shadow-[0_18px_50px_rgba(16,24,40,0.14)]">
+      <p className="mb-2 font-bold text-[#101114]">{label}</p>
       <div className="space-y-1.5">
         {payload
           .filter((entry) => entry.value !== null && entry.value !== undefined)
           .map((entry) => (
             <div key={`${entry.name}`} className="flex min-w-40 items-center justify-between gap-5">
-              <span className="flex items-center gap-2 text-[#7d8aaa]">
+              <span className="flex items-center gap-2 text-[#667085]">
                 <span
                   className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: entry.color ?? "#2789a7" }}
+                  style={{ backgroundColor: entry.color ?? "#176b87" }}
                 />
                 {entry.name}
               </span>
-              <span className="font-extrabold text-[#12142e]">{formatCurrency(Number(entry.value))}</span>
+              <span className="font-semibold text-[#101114]">{formatCurrency(Number(entry.value))}</span>
             </div>
           ))}
       </div>
@@ -133,14 +146,14 @@ function MarketTooltip({ active, payload, label }: TooltipProps<number, string>)
   }
 
   return (
-    <div className="rounded-2xl border border-[#dce6f6] bg-white px-4 py-3 text-xs shadow-[0_18px_50px_rgba(18,22,74,0.14)]">
-      <p className="mb-2 font-bold text-[#12142e]">{label}</p>
+    <div className="rounded-2xl border border-[#e6e9ef] bg-white px-4 py-3 text-xs shadow-[0_18px_50px_rgba(16,24,40,0.14)]">
+      <p className="mb-2 font-bold text-[#101114]">{label}</p>
       {payload.map((entry) => {
         const isDelta = entry.dataKey === "deltaPct";
         return (
           <div key={`${entry.name}`} className="flex min-w-40 items-center justify-between gap-5">
-            <span className="text-[#7d8aaa]">{entry.name}</span>
-            <span className="font-extrabold text-[#12142e]">
+            <span className="text-[#667085]">{entry.name}</span>
+            <span className="font-semibold text-[#101114]">
               {isDelta ? formatPct(Number(entry.value)) : formatCurrency(Number(entry.value))}
             </span>
           </div>
@@ -168,19 +181,19 @@ function MetricTile({
   const trendIsUp = (trend ?? 0) >= 0;
   const iconTone =
     tone === "danger"
-      ? "bg-[#fff1f2] text-[#f5325c] border-[#ffd2db]"
+      ? "bg-[#fff5f5] text-[#d92d20] border-[#fecdca]"
       : tone === "warn"
-        ? "bg-[#fff7e8] text-[#ff981f] border-[#ffe3b9]"
-        : "bg-[#edf9fc] text-[#2789a7] border-[#d5edf4]";
+        ? "bg-[#fffbeb] text-[#f59e0b] border-[#fedf89]"
+        : "bg-[#f8fafc] text-[#176b87] border-[#e6e9ef]";
 
   return (
-    <section className="min-h-[142px] border-b border-[#e4ebf7] p-5 sm:border-b-0 sm:border-r last:sm:border-r-0">
+    <section className="min-h-[142px] border-b border-[#e6e9ef] p-5 sm:border-b-0 sm:border-r last:sm:border-r-0">
       <div className="mb-3 flex items-start justify-between gap-4">
         <div>
-          <p className="text-[12px] font-extrabold uppercase tracking-[0.12em] text-[#7d8aaa]">{label}</p>
-          <p className="mt-2 text-[28px] font-black leading-none text-[#060815]">{value}</p>
+          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-[#667085]">{label}</p>
+          <p className="mt-2 text-[28px] font-bold leading-none text-[#101114]">{value}</p>
         </div>
-        <span className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-2xl border shadow-[0_10px_28px_rgba(18,22,74,0.08)]", iconTone)}>
+        <span className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-2xl border shadow-[0_10px_28px_rgba(16,24,40,0.08)]", iconTone)}>
           <Icon size={20} strokeWidth={2.4} />
         </span>
       </div>
@@ -188,15 +201,15 @@ function MetricTile({
         {trend !== undefined ? (
           <span
             className={cn(
-              "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-extrabold",
-              trendIsUp ? "bg-[#fff1f2] text-[#f5325c]" : "bg-[#ecfdf3] text-[#16a34a]"
+              "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold",
+              trendIsUp ? "bg-[#fff5f5] text-[#d92d20]" : "bg-[#f0fdf4] text-[#15803d]"
             )}
           >
             {trendIsUp ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
             {formatPct(trend)}
           </span>
         ) : null}
-        <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-[#6f7d9f]">{detail}</p>
+        <p className="min-w-0 flex-1 text-sm font-semibold leading-snug text-[#667085]">{detail}</p>
       </div>
     </section>
   );
@@ -214,8 +227,8 @@ function SectionHeader({
   return (
     <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
       <div>
-        <h2 className="text-2xl font-black leading-tight text-[#060815]">{title}</h2>
-        {note ? <p className="mt-1 max-w-xl text-sm font-semibold leading-snug text-[#7d8aaa]">{note}</p> : null}
+        <h2 className="text-2xl font-semibold leading-tight text-[#101114]">{title}</h2>
+        {note ? <p className="mt-1 max-w-xl text-sm font-semibold leading-snug text-[#667085]">{note}</p> : null}
       </div>
       {action}
     </div>
@@ -230,13 +243,13 @@ function Sidebar({
   setActiveTab: (tab: Tab) => void;
 }) {
   return (
-    <aside className="hidden w-[268px] shrink-0 rounded-[28px] bg-[#101346] px-7 py-8 text-white shadow-[0_30px_80px_rgba(16,19,70,0.22)] lg:flex lg:flex-col">
+    <aside className="hidden w-[268px] shrink-0 rounded-[18px] bg-[#111827] px-7 py-8 text-white shadow-[0_30px_80px_rgba(16,24,40,0.22)] lg:flex lg:flex-col">
       <div className="mb-12 flex items-center gap-4">
-        <div className="grid h-16 w-16 place-items-center rounded-2xl bg-[#ff981f] text-3xl font-black text-white">
+        <div className="grid h-16 w-16 place-items-center rounded-2xl bg-[#f59e0b] text-3xl font-bold text-white">
           G
         </div>
         <div>
-          <p className="text-xl font-black">Grocerywatch</p>
+          <p className="text-xl font-semibold">Grocerywatch</p>
           <p className="text-xs font-bold text-white/45">.lk price monitor</p>
         </div>
       </div>
@@ -248,15 +261,15 @@ function Sidebar({
             type="button"
             onClick={() => setActiveTab(tab)}
             className={cn(
-              "group relative flex w-full items-center gap-4 rounded-2xl px-2 py-3 text-left text-base font-extrabold transition",
-              activeTab === tab ? "text-[#ff981f]" : "text-[#7f84b2] hover:text-white"
+              "group relative flex w-full items-center gap-4 rounded-2xl px-2 py-3 text-left text-base font-semibold transition",
+              activeTab === tab ? "text-[#f59e0b]" : "text-[#98a2b3] hover:text-white"
             )}
           >
-            <span className={cn("grid h-9 w-9 place-items-center rounded-xl", activeTab === tab ? "bg-[#ff981f]/15" : "bg-transparent")}>
+            <span className={cn("grid h-9 w-9 place-items-center rounded-xl", activeTab === tab ? "bg-[#f59e0b]/15" : "bg-transparent")}>
               <Icon size={21} strokeWidth={2.35} />
             </span>
             {label}
-            {activeTab === tab ? <span className="absolute -right-7 h-9 w-1.5 rounded-l-full bg-[#ff981f]" /> : null}
+            {activeTab === tab ? <span className="absolute -right-7 h-9 w-1.5 rounded-l-full bg-[#f59e0b]" /> : null}
           </button>
         ))}
       </nav>
@@ -266,13 +279,13 @@ function Sidebar({
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/40">Tracked basket</p>
           <div className="mt-4 grid grid-cols-4 gap-2">
             {ITEMS.slice(0, 8).map((entry) => (
-              <span key={entry.item} className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-sm" title={entry.item}>
-                {entry.item.slice(0, 1)}
+              <span key={entry.item} className="grid h-9 w-9 place-items-center rounded-lg bg-white/10 text-base" title={entry.item}>
+                {FOOD_ICONS[entry.item]}
               </span>
             ))}
           </div>
         </div>
-        <button type="button" className="flex w-full items-center gap-4 rounded-2xl px-2 py-3 text-left font-extrabold text-[#7f84b2]">
+        <button type="button" className="flex w-full items-center gap-4 rounded-2xl px-2 py-3 text-left font-semibold text-[#98a2b3]">
           <Settings size={21} />
           Settings
         </button>
@@ -293,27 +306,27 @@ function ProductStrip({
   return (
     <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
       {productCards.map((row, index) => (
-        <article key={row.market} className="rounded-[24px] border border-[#dfe8f6] bg-white p-4 shadow-[0_18px_50px_rgba(18,22,74,0.06)]">
+        <article key={row.market} className="rounded-[18px] border border-[#e6e9ef] bg-white p-4 shadow-[0_10px_30px_rgba(16,24,40,0.05)]">
           <div className="flex items-start justify-between gap-3">
-            <div className="grid h-20 w-20 place-items-center rounded-full bg-[#eaf7fb] text-3xl font-black text-[#2789a7]">
-              {item.slice(0, 1)}
+            <div className="grid h-20 w-20 place-items-center rounded-2xl bg-[#f8fafc] text-4xl">
+              <span aria-hidden="true">{FOOD_ICONS[item]}</span>
             </div>
-            <span className="rounded-full bg-[#f5325c]/10 px-2.5 py-1 text-xs font-black text-[#f5325c]">
+            <span className="rounded-full bg-[#f2f4f7] px-2.5 py-1 text-xs font-semibold text-[#475467]">
               {Math.abs(row.deltaPct).toFixed(0)}% {row.deltaPct >= 0 ? "above" : "below"}
             </span>
           </div>
-          <p className="mt-4 text-2xl font-black text-[#f5325c]">{formatCurrency(row.price)}</p>
-          <p className="mt-1 text-sm font-bold text-[#8b95ad]">{row.market} market</p>
+          <p className="mt-4 text-2xl font-semibold text-[#101114]">{formatCurrency(row.price)}</p>
+          <p className="mt-1 text-sm font-bold text-[#667085]">{row.market} market</p>
           <div className="mt-4 flex items-center justify-between gap-3">
-            <p className="min-w-0 text-sm font-extrabold text-[#111322]">
+            <p className="min-w-0 text-sm font-semibold text-[#101114]">
               {item} price signal
             </p>
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#2789a7] text-white">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-[#e6e9ef] bg-white text-[#176b87]">
               <Package size={19} />
             </span>
           </div>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#e9f3f7]">
-            <div className="h-full rounded-full bg-[#2789a7]" style={{ width: `${Math.min(92, 42 + index * 13)}%` }} />
+          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#e6e9ef]">
+            <div className="h-full rounded-full bg-[#176b87]" style={{ width: `${Math.min(92, 42 + index * 13)}%` }} />
           </div>
         </article>
       ))}
@@ -372,34 +385,34 @@ export function GrocerywatchDashboard() {
   }));
 
   return (
-    <main className="min-h-screen bg-[#dff2f7] px-3 py-3 text-[#060815] sm:px-5 sm:py-5">
-      <div className="mx-auto flex max-w-[1540px] gap-6 rounded-[34px] bg-white/92 p-3 shadow-[0_28px_90px_rgba(39,137,167,0.18)] lg:p-6">
+    <main className="min-h-screen bg-white px-3 py-3 text-[#101114] sm:px-5 sm:py-5">
+      <div className="mx-auto flex max-w-[1540px] gap-6 bg-white p-3 lg:p-6">
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <section className="min-w-0 flex-1 px-1 py-2 sm:px-3 lg:px-5">
           <header className="mb-7 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.18em] text-[#ff981f]">Sri Lanka grocery price monitor</p>
-              <h1 className="mt-2 text-4xl font-black tracking-[-0.03em] text-[#060815] sm:text-5xl">
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#f59e0b]">Sri Lanka grocery price monitor</p>
+              <h1 className="mt-2 text-[36px] font-semibold leading-none text-[#101114] sm:text-5xl">
                 Grocerywatch.lk
               </h1>
-              <p className="mt-2 text-base font-bold text-[#7d8aaa]">Food price intelligence for Sri Lanka</p>
+              <p className="mt-2 text-base font-bold text-[#667085]">Food price intelligence for Sri Lanka</p>
             </div>
 
             <div className="flex items-center gap-3">
-              <button className="grid h-12 w-12 place-items-center rounded-full bg-white text-[#060815] shadow-[0_12px_30px_rgba(18,22,74,0.08)]" type="button">
+              <button className="grid h-12 w-12 place-items-center rounded-full bg-white text-[#101114] shadow-[0_12px_30px_rgba(16,24,40,0.08)]" type="button">
                 <Search size={22} />
               </button>
-              <button className="relative grid h-12 w-12 place-items-center rounded-full bg-white text-[#060815] shadow-[0_12px_30px_rgba(18,22,74,0.08)]" type="button">
+              <button className="relative grid h-12 w-12 place-items-center rounded-full bg-white text-[#101114] shadow-[0_12px_30px_rgba(16,24,40,0.08)]" type="button">
                 <Bell size={21} />
-                <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-[#f5325c]" />
+                <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-[#d92d20]" />
               </button>
-              <div className="hidden items-center gap-3 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_12px_30px_rgba(18,22,74,0.08)] sm:flex">
-                <span className="grid h-10 w-10 place-items-center rounded-full bg-[#eaf7fb] text-[#2789a7]">
+              <div className="hidden items-center gap-3 rounded-full bg-white py-1.5 pl-1.5 pr-4 shadow-[0_12px_30px_rgba(16,24,40,0.08)] sm:flex">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-[#f8fafc] text-[#176b87]">
                   <UserRound size={20} />
                 </span>
-                <span className="font-extrabold">Analyst</span>
-                <ChevronDown size={17} className="text-[#7d8aaa]" />
+                <span className="font-semibold">Analyst</span>
+                <ChevronDown size={17} className="text-[#667085]" />
               </div>
             </div>
           </header>
@@ -411,8 +424,8 @@ export function GrocerywatchDashboard() {
                 type="button"
                 onClick={() => setActiveTab(tab)}
                 className={cn(
-                  "flex shrink-0 items-center gap-2 rounded-2xl px-4 py-3 text-sm font-black",
-                  activeTab === tab ? "bg-[#101346] text-white" : "bg-white text-[#7d8aaa]"
+                  "flex shrink-0 items-center gap-2 rounded-2xl px-4 py-3 text-sm font-bold",
+                  activeTab === tab ? "bg-[#111827] text-white" : "bg-white text-[#667085]"
                 )}
               >
                 <Icon size={17} />
@@ -421,17 +434,17 @@ export function GrocerywatchDashboard() {
             ))}
           </div>
 
-          <section className="mb-5 rounded-[24px] border border-[#dfe8f6] bg-white p-4 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+          <section className="mb-5 rounded-[18px] border border-[#e6e9ef] bg-white p-4 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
             <div className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
               <label className="grid gap-2">
-                <span className="flex items-center gap-2 text-[12px] font-black uppercase tracking-[0.16em] text-[#8b95ad]">
+                <span className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.16em] text-[#667085]">
                   <Search size={14} />
                   Item
                 </span>
                 <select
                   value={item}
                   onChange={(event) => setItem(event.target.value as FoodItem)}
-                  className="focus-ring h-12 rounded-xl border border-[#d9e3f2] bg-[#fbfdff] px-4 text-base font-black text-[#060815]"
+                  className="focus-ring h-12 rounded-xl border border-[#e6e9ef] bg-[#ffffff] px-4 text-base font-bold text-[#101114]"
                 >
                   {ITEMS.map((entry) => (
                     <option key={entry.item} value={entry.item}>
@@ -442,14 +455,14 @@ export function GrocerywatchDashboard() {
               </label>
 
               <label className="grid gap-2">
-                <span className="flex items-center gap-2 text-[12px] font-black uppercase tracking-[0.16em] text-[#8b95ad]">
+                <span className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.16em] text-[#667085]">
                   <MapPin size={14} />
                   Market
                 </span>
                 <select
                   value={market}
                   onChange={(event) => setMarket(event.target.value as MarketName)}
-                  className="focus-ring h-12 rounded-xl border border-[#d9e3f2] bg-[#fbfdff] px-4 text-base font-black text-[#060815]"
+                  className="focus-ring h-12 rounded-xl border border-[#e6e9ef] bg-[#ffffff] px-4 text-base font-bold text-[#101114]"
                 >
                   {MARKETS.map((entry) => (
                     <option key={entry.market} value={entry.market}>
@@ -460,14 +473,14 @@ export function GrocerywatchDashboard() {
               </label>
 
               <label className="grid gap-2">
-                <span className="flex items-center gap-2 text-[12px] font-black uppercase tracking-[0.16em] text-[#8b95ad]">
+                <span className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.16em] text-[#667085]">
                   <LineChartIcon size={14} />
                   Date range
                 </span>
                 <select
                   value={rangeMonths}
                   onChange={(event) => setRangeMonths(Number(event.target.value))}
-                  className="focus-ring h-12 rounded-xl border border-[#d9e3f2] bg-[#fbfdff] px-4 text-base font-black text-[#060815]"
+                  className="focus-ring h-12 rounded-xl border border-[#e6e9ef] bg-[#ffffff] px-4 text-base font-bold text-[#101114]"
                 >
                   {RANGE_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -478,15 +491,15 @@ export function GrocerywatchDashboard() {
               </label>
 
               <div className="grid min-w-36 content-end">
-                <div className="rounded-2xl bg-[#2789a7] px-5 py-3 text-white">
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/70">Latest sample</p>
-                  <p className="text-2xl font-black">{series.at(-1)?.monthLabel ?? "No data"}</p>
+                <div className="rounded-2xl bg-[#176b87] px-5 py-3 text-white">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Latest sample</p>
+                  <p className="text-2xl font-bold">{series.at(-1)?.monthLabel ?? "No data"}</p>
                 </div>
               </div>
             </div>
           </section>
 
-          <section className="mb-6 grid overflow-hidden rounded-[24px] border border-[#dfe8f6] bg-white shadow-[0_18px_50px_rgba(18,22,74,0.05)] sm:grid-cols-2 xl:grid-cols-4">
+          <section className="mb-6 grid overflow-hidden rounded-[18px] border border-[#e6e9ef] bg-white shadow-[0_18px_50px_rgba(16,24,40,0.05)] sm:grid-cols-2 xl:grid-cols-4">
             <MetricTile
               label="Latest price"
               value={formatCurrency(metrics.latestPrice)}
@@ -521,21 +534,21 @@ export function GrocerywatchDashboard() {
 
           {activeTab === "Trend" ? (
             <div className="grid gap-6 xl:grid-cols-[1.55fr_0.8fr]">
-              <section className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+              <section className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                 <SectionHeader
                   title={`${item} analytics`}
                   note={`${market} price trend, rolling average, forecast, and unusual movements.`}
                   action={
-                    <div className="flex items-center gap-4 text-xs font-black text-[#060815]">
-                      <span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-[#12164a]" />Actual</span>
-                      <span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-[#ff981f]" />Rolling</span>
+                    <div className="flex items-center gap-4 text-xs font-bold text-[#101114]">
+                      <span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-[#111827]" />Actual</span>
+                      <span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />Rolling</span>
                     </div>
                   }
                 />
                 <div className="h-[372px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={trendData} margin={{ top: 14, right: 16, bottom: 4, left: 0 }}>
-                      <CartesianGrid stroke="#e8eff9" vertical={false} />
+                      <CartesianGrid stroke="#e6e9ef" vertical={false} />
                       <XAxis dataKey="monthLabel" tickLine={false} axisLine={false} minTickGap={24} />
                       <YAxis
                         tickLine={false}
@@ -545,12 +558,12 @@ export function GrocerywatchDashboard() {
                         domain={["dataMin - 30", "dataMax + 30"]}
                       />
                       <Tooltip content={<PriceTooltip />} />
-                      <Line type="monotone" dataKey="Actual" stroke="#12164a" strokeWidth={3} dot={false} />
-                      <Line type="monotone" dataKey="3M average" stroke="#ff981f" strokeWidth={2.6} dot={false} />
+                      <Line type="monotone" dataKey="Actual" stroke="#111827" strokeWidth={3} dot={false} />
+                      <Line type="monotone" dataKey="3M average" stroke="#f59e0b" strokeWidth={2.6} dot={false} />
                       <Line
                         type="monotone"
                         dataKey="Forecast"
-                        stroke="#2789a7"
+                        stroke="#176b87"
                         strokeWidth={2.6}
                         strokeDasharray="7 6"
                         dot={{ r: 3 }}
@@ -562,7 +575,7 @@ export function GrocerywatchDashboard() {
                           x={point.monthLabel}
                           y={point.price}
                           r={6}
-                          fill="#f5325c"
+                          fill="#d92d20"
                           stroke="#ffffff"
                           strokeWidth={2}
                         />
@@ -573,7 +586,7 @@ export function GrocerywatchDashboard() {
               </section>
 
               <aside className="grid gap-6">
-                <section className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+                <section className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                   <SectionHeader title="Basket mix" />
                   <div className="h-[230px]">
                     <ResponsiveContainer width="100%" height="100%">
@@ -587,8 +600,8 @@ export function GrocerywatchDashboard() {
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
-                  <p className="-mt-2 text-center text-3xl font-black text-[#404359]">{basketSnapshot ? formatCurrency(basketSnapshot.total) : "n/a"}</p>
-                  <div className="mt-4 flex flex-wrap justify-center gap-3 text-xs font-black text-[#6f7d9f]">
+                  <p className="-mt-2 text-center text-3xl font-bold text-[#344054]">{basketSnapshot ? formatCurrency(basketSnapshot.total) : "n/a"}</p>
+                  <div className="mt-4 flex flex-wrap justify-center gap-3 text-xs font-bold text-[#667085]">
                     {donutData.slice(0, 3).map((entry, index) => (
                       <span key={entry.name} className="flex items-center gap-2">
                         <i className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: GROCERY_COLORS[index] }} />
@@ -598,9 +611,9 @@ export function GrocerywatchDashboard() {
                   </div>
                 </section>
 
-                <section className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+                <section className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                   <SectionHeader title="Explanation" />
-                  <p className="text-base font-semibold leading-8 text-[#53607d]">{readout}</p>
+                  <p className="text-base font-semibold leading-8 text-[#475467]">{readout}</p>
                 </section>
               </aside>
 
@@ -608,15 +621,15 @@ export function GrocerywatchDashboard() {
                 <ProductStrip item={item} comparison={comparison} />
               </section>
 
-              <section className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)] xl:col-span-2">
+              <section className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)] xl:col-span-2">
                 <SectionHeader title="Recent alerts" note="Detected outliers across tracked markets." />
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
                   {recentAnomalies.map((alert) => (
-                    <div key={`${alert.market}-${alert.date}-${alert.score}`} className="rounded-2xl bg-[#fff6f7] p-4">
-                      <AlertTriangle className="mb-3 text-[#f5325c]" size={21} />
-                      <p className="font-black text-[#060815]">{alert.market}</p>
-                      <p className="text-sm font-bold text-[#7d8aaa]">{alert.monthLabel}</p>
-                      <p className="mt-2 text-sm font-extrabold text-[#f5325c]">{formatCurrency(alert.price)}</p>
+                    <div key={`${alert.market}-${alert.date}-${alert.score}`} className="rounded-2xl bg-[#fff5f5] p-4">
+                      <AlertTriangle className="mb-3 text-[#d92d20]" size={21} />
+                      <p className="font-bold text-[#101114]">{alert.market}</p>
+                      <p className="text-sm font-bold text-[#667085]">{alert.monthLabel}</p>
+                      <p className="mt-2 text-sm font-semibold text-[#d92d20]">{formatCurrency(alert.price)}</p>
                     </div>
                   ))}
                 </div>
@@ -626,52 +639,52 @@ export function GrocerywatchDashboard() {
 
           {activeTab === "Markets" ? (
             <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-              <div className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+              <div className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                 <SectionHeader title={`${item} by market`} note="Ranking against the current national median." />
                 <div className="h-[430px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={comparison} margin={{ top: 16, right: 20, bottom: 4, left: 0 }}>
-                      <CartesianGrid stroke="#e8eff9" vertical={false} />
+                      <CartesianGrid stroke="#e6e9ef" vertical={false} />
                       <XAxis dataKey="market" tickLine={false} axisLine={false} interval={0} />
                       <YAxis yAxisId="price" tickLine={false} axisLine={false} tickFormatter={compactLkrAxis} />
                       <YAxis yAxisId="delta" orientation="right" tickLine={false} axisLine={false} tickFormatter={(value) => `${value}%`} />
                       <Tooltip content={<MarketTooltip />} />
                       <Bar yAxisId="price" dataKey="price" name="Latest price" radius={[10, 10, 0, 0]}>
                         {comparison.map((row) => (
-                          <Cell key={row.market} fill={row.market === market ? "#ff981f" : "#2789a7"} />
+                          <Cell key={row.market} fill={row.market === market ? "#f59e0b" : "#176b87"} />
                         ))}
                       </Bar>
-                      <Line yAxisId="delta" type="monotone" dataKey="deltaPct" name="Median delta" stroke="#12164a" strokeWidth={3} dot={{ r: 4, fill: "#12164a" }} />
+                      <Line yAxisId="delta" type="monotone" dataKey="deltaPct" name="Median delta" stroke="#111827" strokeWidth={3} dot={{ r: 4, fill: "#111827" }} />
                     </ComposedChart>
                   </ResponsiveContainer>
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-[24px] border border-[#dfe8f6] bg-white shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+              <div className="overflow-hidden rounded-[18px] border border-[#e6e9ef] bg-white shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                 <div className="p-5">
                   <SectionHeader title="Market list" />
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-                    <thead className="text-[#7d8aaa]">
+                    <thead className="text-[#667085]">
                       <tr>
-                        <th className="px-5 py-3 font-black">No</th>
-                        <th className="px-5 py-3 font-black">Market</th>
-                        <th className="px-5 py-3 font-black">Price</th>
-                        <th className="px-5 py-3 font-black">Status</th>
+                        <th className="px-5 py-3 font-bold">No</th>
+                        <th className="px-5 py-3 font-bold">Market</th>
+                        <th className="px-5 py-3 font-bold">Price</th>
+                        <th className="px-5 py-3 font-bold">Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       {comparison.map((row) => (
-                        <tr key={row.market} className="border-t border-[#e8eff9]">
-                          <td className="px-5 py-4 font-black">{row.rank}</td>
+                        <tr key={row.market} className="border-t border-[#e6e9ef]">
+                          <td className="px-5 py-4 font-bold">{row.rank}</td>
                           <td className="px-5 py-4">
-                            <p className="font-black text-[#060815]">{row.market}</p>
-                            <p className="text-xs font-bold text-[#8b95ad]">{row.province}</p>
+                            <p className="font-bold text-[#101114]">{row.market}</p>
+                            <p className="text-xs font-bold text-[#667085]">{row.province}</p>
                           </td>
-                          <td className="px-5 py-4 font-black">{formatCurrency(row.price)}</td>
+                          <td className="px-5 py-4 font-bold">{formatCurrency(row.price)}</td>
                           <td className="px-5 py-4">
-                            <span className={cn("rounded-full px-3 py-1 text-xs font-black", row.deltaPct > 0 ? "bg-[#fff1f2] text-[#f5325c]" : "bg-[#edf9fc] text-[#2789a7]")}>
+                            <span className={cn("rounded-full px-3 py-1 text-xs font-bold", row.deltaPct > 0 ? "bg-[#fff5f5] text-[#d92d20]" : "bg-[#f8fafc] text-[#176b87]")}>
                               {formatPct(row.deltaPct)}
                             </span>
                           </td>
@@ -686,11 +699,11 @@ export function GrocerywatchDashboard() {
 
           {activeTab === "Basket" ? (
             <section className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
-              <div className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+              <div className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                 <SectionHeader title="Household basket" note="Monthly staple estimate by household size." />
-                <label className="grid gap-4 rounded-[22px] bg-[#edf9fc] p-5">
+                <label className="grid gap-4 rounded-[16px] bg-[#f8fafc] p-5">
                   <div className="flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center gap-2 text-sm font-black text-[#060815]">
+                    <span className="inline-flex items-center gap-2 text-sm font-bold text-[#101114]">
                       <Calculator size={18} />
                       Household size
                     </span>
@@ -700,7 +713,7 @@ export function GrocerywatchDashboard() {
                       max={10}
                       value={householdSize}
                       onChange={(event) => setHouseholdSize(Number(event.target.value))}
-                      className="focus-ring h-12 w-24 rounded-2xl border border-[#d9e3f2] bg-white px-3 text-center font-black"
+                      className="focus-ring h-12 w-24 rounded-2xl border border-[#e6e9ef] bg-white px-3 text-center font-bold"
                     />
                   </div>
                   <input
@@ -709,49 +722,49 @@ export function GrocerywatchDashboard() {
                     max={10}
                     value={householdSize}
                     onChange={(event) => setHouseholdSize(Number(event.target.value))}
-                    className="accent-[#2789a7]"
+                    className="accent-[#176b87]"
                   />
                 </label>
-                <div className="mt-5 rounded-[24px] bg-[#101346] p-5 text-white">
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-white/50">Latest basket</p>
-                  <p className="mt-2 text-4xl font-black">{formatCurrency(basketSnapshot?.total ?? 0)}</p>
+                <div className="mt-5 rounded-[18px] bg-[#111827] p-5 text-white">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/50">Latest basket</p>
+                  <p className="mt-2 text-4xl font-bold">{formatCurrency(basketSnapshot?.total ?? 0)}</p>
                   <p className="mt-2 text-sm font-bold text-white/65">
                     {basketSnapshot?.changePct === null || basketSnapshot?.changePct === undefined
                       ? "No previous month comparison"
                       : `${formatPct(basketSnapshot.changePct)} from previous month`}
                   </p>
                 </div>
-                <p className="mt-5 text-base font-semibold leading-8 text-[#53607d]">{basketSnapshot ? basketReadout(basketSnapshot) : "No basket data available."}</p>
+                <p className="mt-5 text-base font-semibold leading-8 text-[#475467]">{basketSnapshot ? basketReadout(basketSnapshot) : "No basket data available."}</p>
               </div>
 
               <div className="grid gap-6">
-                <section className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+                <section className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                   <SectionHeader title="Basket trend" />
                   <div className="h-[290px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={basketTrend} margin={{ top: 12, right: 16, bottom: 2, left: 0 }}>
                         <defs>
                           <linearGradient id="basketFillNew" x1="0" x2="0" y1="0" y2="1">
-                            <stop offset="5%" stopColor="#2789a7" stopOpacity={0.3} />
-                            <stop offset="95%" stopColor="#2789a7" stopOpacity={0.02} />
+                            <stop offset="5%" stopColor="#176b87" stopOpacity={0.3} />
+                            <stop offset="95%" stopColor="#176b87" stopOpacity={0.02} />
                           </linearGradient>
                         </defs>
-                        <CartesianGrid stroke="#e8eff9" vertical={false} />
+                        <CartesianGrid stroke="#e6e9ef" vertical={false} />
                         <XAxis dataKey="monthLabel" tickLine={false} axisLine={false} minTickGap={24} />
                         <YAxis tickLine={false} axisLine={false} tickFormatter={compactLkrAxis} />
                         <Tooltip content={<PriceTooltip />} />
-                        <Area type="monotone" dataKey="Basket cost" stroke="#2789a7" strokeWidth={3} fill="url(#basketFillNew)" />
+                        <Area type="monotone" dataKey="Basket cost" stroke="#176b87" strokeWidth={3} fill="url(#basketFillNew)" />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
                 </section>
 
-                <section className="rounded-[24px] border border-[#dfe8f6] bg-white p-5 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+                <section className="rounded-[18px] border border-[#e6e9ef] bg-white p-5 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                   <SectionHeader title="Top contributors" />
                   <div className="h-[260px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={topBasketContributors} layout="vertical" margin={{ top: 6, right: 28, bottom: 0, left: 10 }}>
-                        <CartesianGrid stroke="#e8eff9" horizontal={false} />
+                        <CartesianGrid stroke="#e6e9ef" horizontal={false} />
                         <XAxis type="number" tickLine={false} axisLine={false} tickFormatter={compactLkrAxis} />
                         <YAxis type="category" dataKey="item" tickLine={false} axisLine={false} width={92} />
                         <Tooltip content={<PriceTooltip />} />
@@ -770,9 +783,9 @@ export function GrocerywatchDashboard() {
 
           {activeTab === "Method" ? (
             <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-              <div className="rounded-[24px] border border-[#dfe8f6] bg-white p-6 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+              <div className="rounded-[18px] border border-[#e6e9ef] bg-white p-6 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                 <SectionHeader title="Methodology" />
-                <div className="space-y-4 text-sm font-semibold leading-7 text-[#53607d]">
+                <div className="space-y-4 text-sm font-semibold leading-7 text-[#475467]">
                   <p>
                     Grocerywatch.lk currently uses a deterministic local dataset covering 24 months, 10 food items, and 8 Sri Lankan markets. The data layer is isolated so open datasets can replace the seed records cleanly.
                   </p>
@@ -783,7 +796,7 @@ export function GrocerywatchDashboard() {
                 </div>
               </div>
 
-              <div className="rounded-[24px] border border-[#dfe8f6] bg-white p-6 shadow-[0_18px_50px_rgba(18,22,74,0.05)]">
+              <div className="rounded-[18px] border border-[#e6e9ef] bg-white p-6 shadow-[0_18px_50px_rgba(16,24,40,0.05)]">
                 <SectionHeader title="Architecture" />
                 <div className="grid gap-3 md:grid-cols-2">
                   {[
@@ -794,12 +807,12 @@ export function GrocerywatchDashboard() {
                     ["Types", "src/lib/prices/types.ts"],
                     ["Dashboard UI", "src/components/dashboard/GrocerywatchDashboard.tsx"]
                   ].map(([title, path]) => (
-                    <div key={path} className="rounded-2xl border border-[#dfe8f6] bg-[#fbfdff] p-4">
-                      <p className="inline-flex items-center gap-2 font-black text-[#060815]">
+                    <div key={path} className="rounded-2xl border border-[#e6e9ef] bg-[#ffffff] p-4">
+                      <p className="inline-flex items-center gap-2 font-bold text-[#101114]">
                         <Database size={16} />
                         {title}
                       </p>
-                      <p className="mt-2 break-words text-xs font-bold text-[#8b95ad]">{path}</p>
+                      <p className="mt-2 break-words text-xs font-bold text-[#667085]">{path}</p>
                     </div>
                   ))}
                 </div>
@@ -811,3 +824,6 @@ export function GrocerywatchDashboard() {
     </main>
   );
 }
+
+
+
