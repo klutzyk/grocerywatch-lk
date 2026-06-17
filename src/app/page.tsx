@@ -1,5 +1,5 @@
-import { PricePulseDashboard } from "@/components/dashboard/PricePulseDashboard";
+import { GrocerywatchDashboard } from "@/components/dashboard/GrocerywatchDashboard";
 
 export default function Home() {
-  return <PricePulseDashboard />;
+  return <GrocerywatchDashboard />;
 }

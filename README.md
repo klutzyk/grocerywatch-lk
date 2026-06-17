@@ -1,12 +1,12 @@
-# PricePulse LK
+# Grocerywatch.lk
 
-PricePulse LK is a portfolio-quality data science web app for exploring Sri Lankan food price movement. It opens directly into a working dashboard for commodity trends, market comparison, anomaly alerts, short-range forecasts, and a household staple basket estimate.
+Grocerywatch.lk is a portfolio-quality data science web app for exploring Sri Lankan food price movement. It opens directly into a working dashboard for commodity trends, market comparison, anomaly alerts, short-range forecasts, and a household staple basket estimate.
 
-The product direction is a civic data newsroom mixed with a compact financial terminal: dense, readable, and grounded in analysis rather than generic SaaS copy.
+The product direction is a grocery intelligence dashboard: a dark navigation rail, clean analytics cards, rounded food-product surfaces, and a light teal/orange/red grocery palette.
 
 ## Why This Matters
 
-Food price movement affects household budgets, small shops, students, researchers, NGOs, and policy teams. PricePulse LK is designed to show not just what changed, but whether the movement looks unusual, where prices are high or low, and which basket items are driving monthly pressure.
+Food price movement affects household budgets, small shops, students, researchers, NGOs, and policy teams. Grocerywatch.lk is designed to show not just what changed, but whether the movement looks unusual, where prices are high or low, and which basket items are driving monthly pressure.
 
 ## Current Data
 
@@ -48,7 +48,7 @@ src/lib/prices/seed-data.ts      Deterministic MVP data source
 src/lib/prices/analytics.ts      Metrics, anomaly detection, basket logic
 src/lib/prices/forecast.ts       Forecast helpers
 src/lib/prices/explanations.ts   Human-readable metric summaries
-src/components/dashboard/*       Dashboard UI
+src/components/dashboard/*       Grocerywatch dashboard UI
 src/app/page.tsx                 App Router entry point
 ```
 
@@ -81,7 +81,7 @@ npm run build
 
 ## CV / Portfolio Bullets
 
-- Built a Next.js and TypeScript civic data dashboard for Sri Lankan food price intelligence.
+- Built a Next.js and TypeScript grocery price intelligence dashboard for Sri Lankan food trends.
 - Implemented deterministic analytics for trend, volatility, anomaly detection, market ranking, and basket index calculations.
 - Designed a clean data layer that can swap local seed data for open food price datasets.
 - Created plain-English explanation cards from computed metrics without using paid AI APIs.

@@ -3,11 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #f5f0e6;
-  --foreground: #211f1a;
-  --leaf: #0f4a35;
-  --saffron: #d89b22;
-  --grid: rgba(33, 31, 26, 0.11);
+  --background: #eef6df;
+  --foreground: #11130d;
+  --market-ink: #171426;
+  --leaf: #145241;
+  --pool: #0e7c83;
+  --jak: #ef8a17;
+  --hibiscus: #c92d4b;
+  --paper: #fffdf5;
 }
 
 * {
@@ -25,11 +28,11 @@ body {
   margin: 0;
   font-family: var(--font-sans), "Aptos", "Segoe UI", sans-serif;
   background:
-    linear-gradient(90deg, rgba(15, 74, 53, 0.045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(15, 74, 53, 0.045) 1px, transparent 1px),
-    radial-gradient(circle at 10% 0%, rgba(216, 155, 34, 0.16), transparent 24rem),
-    #f5f0e6;
-  background-size: 32px 32px, 32px 32px, auto, auto;
+    linear-gradient(120deg, rgba(20, 82, 65, 0.08) 0 1px, transparent 1px 18px),
+    radial-gradient(circle at 12% 10%, rgba(239, 138, 23, 0.18), transparent 28rem),
+    radial-gradient(circle at 92% 2%, rgba(14, 124, 131, 0.18), transparent 24rem),
+    #eef6df;
+  background-size: 18px 18px, auto, auto, auto;
 }
 
 button,
@@ -39,24 +42,21 @@ select {
 }
 
 ::selection {
-  background: rgba(216, 155, 34, 0.35);
-}
-
-.font-display {
-  font-family: var(--font-display), Georgia, serif;
+  background: rgba(39, 137, 167, 0.22);
 }
 
 .chart-grid line {
-  stroke: rgba(33, 31, 26, 0.12);
+  stroke: #e8eff9;
 }
 
 .recharts-cartesian-axis-tick text {
-  fill: rgba(33, 31, 26, 0.62);
+  fill: #7d8aaa;
   font-size: 11px;
+  font-weight: 800;
 }
 
 .recharts-tooltip-cursor {
-  fill: rgba(15, 74, 53, 0.05);
+  fill: rgba(14, 124, 131, 0.08);
 }
 
 .focus-ring {
@@ -65,5 +65,9 @@ select {
 }
 
 .focus-ring:focus-visible {
-  outline-color: #d89b22;
+  outline-color: #ef8a17;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
 }
