@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f5f0e6;
+  --foreground: #211f1a;
+  --leaf: #0f4a35;
+  --saffron: #d89b22;
+  --grid: rgba(33, 31, 26, 0.11);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-sans), "Aptos", "Segoe UI", sans-serif;
+  background:
+    linear-gradient(90deg, rgba(15, 74, 53, 0.045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(15, 74, 53, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 10% 0%, rgba(216, 155, 34, 0.16), transparent 24rem),
+    #f5f0e6;
+  background-size: 32px 32px, 32px 32px, auto, auto;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(216, 155, 34, 0.35);
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.chart-grid line {
+  stroke: rgba(33, 31, 26, 0.12);
+}
+
+.recharts-cartesian-axis-tick text {
+  fill: rgba(33, 31, 26, 0.62);
+  font-size: 11px;
+}
+
+.recharts-tooltip-cursor {
+  fill: rgba(15, 74, 53, 0.05);
+}
+
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus-visible {
+  outline-color: #d89b22;
+}
