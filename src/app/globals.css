@@ -3,15 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #101114;
-  --ink: #111827;
-  --muted: #667085;
-  --line: #e6e9ef;
-  --panel: #ffffff;
-  --accent: #176b87;
-  --warm: #f59e0b;
-  --danger: #d92d20;
+  --background: #0f1f38;
+  --foreground: #f1f5f9;
+  --ink: #f8fafc;
+  --muted: #94a3b8;
+  --line: #23395b;
+  --panel: #152847;
+  --accent: #f4b41a;
+  --warm: #f4b41a;
+  --danger: #e07a5f;
+  --success: #81b29a;
+  --input: #152847;
+  --card: #152847;
+  --radius: 0.25rem;
 }
 
 * {
@@ -27,8 +31,9 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  font-family: var(--font-sans), "Aptos", "Segoe UI", sans-serif;
-  background: #ffffff;
+  font-family: var(--font-sans), "IBM Plex Sans", "Segoe UI", sans-serif;
+  background: var(--background);
+  color: var(--foreground);
 }
 
 button,
@@ -38,7 +43,7 @@ select {
 }
 
 ::selection {
-  background: rgba(23, 107, 135, 0.16);
+  background: rgba(244, 180, 26, 0.22);
 }
 
 .chart-grid line {
@@ -52,7 +57,7 @@ select {
 }
 
 .recharts-tooltip-cursor {
-  fill: rgba(23, 107, 135, 0.05);
+  fill: rgba(244, 180, 26, 0.08);
 }
 
 .focus-ring {
