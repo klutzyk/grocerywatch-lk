@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import {
   Activity,
@@ -86,6 +86,37 @@ const DESKTOP_CHART_MARKETS: MarketName[] = ["Colombo", "Kandy", "Kurunegala"];
 
 function cn(...classes: Array<string | false | null | undefined>): string {
   return classes.filter(Boolean).join(" ");
+}
+
+function ChartFrame({ children, className }: { children: ReactNode; className: string }) {
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const [isMeasured, setIsMeasured] = useState(false);
+
+  useEffect(() => {
+    const node = frameRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const updateSize = () => {
+      const rect = node.getBoundingClientRect();
+      setIsMeasured(rect.width > 0 && rect.height > 0);
+    };
+
+    updateSize();
+
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={frameRef} className={cn("min-w-0", className)}>
+      {isMeasured ? children : null}
+    </div>
+  );
 }
 
 function compactLkrAxis(value: number | string): string {
@@ -502,7 +533,7 @@ export function GrocerywatchDashboard() {
                         </span>
                       </div>
                     ) : null}
-                    <div className="h-[260px]">
+                    <ChartFrame className="h-[260px]">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={mobileTrendData} margin={{ top: 10, right: 8, bottom: 0, left: -18 }}>
                           <CartesianGrid stroke="#23395b" vertical={false} opacity={0.55} />
@@ -521,7 +552,7 @@ export function GrocerywatchDashboard() {
                           />
                         </LineChart>
                       </ResponsiveContainer>
-                    </div>
+                    </ChartFrame>
                   </div>
                 </section>
 
@@ -538,7 +569,7 @@ export function GrocerywatchDashboard() {
             {activeTab === "Markets" ? (
               <section className="rounded-sm border border-[#23395b] bg-[#152847]">
                 <SectionHeader title="Market Comparison" note={`${item} across tracked hubs`} />
-                <div className="h-[320px] p-3">
+                <ChartFrame className="h-[320px] p-3">
                   <ResponsiveContainer width="100%" height="100%">
                     <ComposedChart data={comparison} margin={{ top: 12, right: 0, bottom: 0, left: -18 }}>
                       <CartesianGrid stroke="#23395b" vertical={false} opacity={0.55} />
@@ -554,7 +585,7 @@ export function GrocerywatchDashboard() {
                       <Line yAxisId="delta" type="monotone" dataKey="deltaPct" name="Median delta" stroke="#e07a5f" strokeWidth={2} dot={{ r: 3, fill: "#e07a5f" }} />
                     </ComposedChart>
                   </ResponsiveContainer>
-                </div>
+                </ChartFrame>
                 <MarketComparison comparison={comparison} market={market} />
               </section>
             ) : null}
@@ -569,7 +600,7 @@ export function GrocerywatchDashboard() {
                 />
                 <section className="rounded-sm border border-[#23395b] bg-[#152847]">
                   <SectionHeader title="Basket Cost Trend" note="Estimated monthly essential food cost" />
-                  <div className="h-[300px] p-3">
+                  <ChartFrame className="h-[300px] p-3">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={basketTrend} margin={{ top: 10, right: 8, bottom: 0, left: -18 }}>
                         <defs>
@@ -585,7 +616,7 @@ export function GrocerywatchDashboard() {
                         <Area type="monotone" dataKey="Basket cost" stroke="#f4b41a" strokeWidth={2.4} fill="url(#mobileBasketFill)" />
                       </AreaChart>
                     </ResponsiveContainer>
-                  </div>
+                  </ChartFrame>
                 </section>
               </>
             ) : null}
@@ -787,7 +818,7 @@ export function GrocerywatchDashboard() {
                       </span>
                     </div>
                   </div>
-                  <div className="h-[300px]">
+                  <ChartFrame className="h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
                       <ComposedChart data={desktopChartData} margin={{ top: 16, right: 18, bottom: 6, left: 0 }}>
                         <defs>
@@ -839,7 +870,7 @@ export function GrocerywatchDashboard() {
                         ))}
                       </ComposedChart>
                     </ResponsiveContainer>
-                  </div>
+                  </ChartFrame>
                   <div className="mt-4 grid grid-cols-[minmax(230px,0.75fr)_minmax(0,1.25fr)] gap-3 border-t border-[#e6e3dc] pt-4">
                     <div className="rounded border border-[#ffe0a3] bg-[#fffaf0] p-3">
                       <div className="mb-2 flex items-center gap-2">
@@ -917,7 +948,7 @@ export function GrocerywatchDashboard() {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-3 h-14">
+                  <ChartFrame className="mt-3 h-14">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={desktopComparison} margin={{ top: 4, right: 0, bottom: 0, left: -20 }}>
                         <XAxis
@@ -936,7 +967,7 @@ export function GrocerywatchDashboard() {
                         </Bar>
                       </BarChart>
                     </ResponsiveContainer>
-                  </div>
+                  </ChartFrame>
                 </DesktopPanel>
               </section>
 
@@ -954,7 +985,7 @@ export function GrocerywatchDashboard() {
               />
               <DesktopPanel>
                 <SectionHeader title="Basket Cost Trend" note="Estimated monthly essential food basket cost" theme="light" />
-                <div className="h-[360px] p-4">
+                <ChartFrame className="h-[360px] p-4">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={basketTrend} margin={{ top: 12, right: 18, bottom: 4, left: 0 }}>
                       <defs>
@@ -970,7 +1001,7 @@ export function GrocerywatchDashboard() {
                       <Area type="monotone" dataKey="Basket cost" stroke="#e58900" strokeWidth={2.4} fill="url(#basketFill)" />
                     </AreaChart>
                   </ResponsiveContainer>
-                </div>
+                </ChartFrame>
               </DesktopPanel>
             </section>
           ) : null}
