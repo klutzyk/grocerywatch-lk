@@ -110,8 +110,8 @@ function PriceTooltip({ active, payload, label }: TooltipProps<number, string>) 
       <div className="space-y-1.5">
         {payload
           .filter((entry) => entry.value !== null && entry.value !== undefined)
-          .map((entry) => (
-            <div key={`${entry.name}`} className="flex min-w-40 items-center justify-between gap-5">
+          .map((entry, index) => (
+            <div key={`${entry.dataKey ?? entry.name}-${index}`} className="flex min-w-40 items-center justify-between gap-5">
               <span className="flex items-center gap-2 text-[#94a3b8]">
                 <span
                   className="h-2 w-2 rounded-full"
@@ -135,10 +135,10 @@ function MarketTooltip({ active, payload, label }: TooltipProps<number, string>)
   return (
     <div className="rounded-sm border border-[#23395b] bg-[#0f1f38] px-3 py-2 text-xs shadow-xl">
       <p className="mb-2 font-semibold text-[#f1f5f9]">{label}</p>
-      {payload.map((entry) => {
+      {payload.map((entry, index) => {
         const isDelta = entry.dataKey === "deltaPct";
         return (
-          <div key={`${entry.name}`} className="flex min-w-40 items-center justify-between gap-5">
+          <div key={`${entry.dataKey ?? entry.name}-${index}`} className="flex min-w-40 items-center justify-between gap-5">
             <span className="text-[#94a3b8]">{entry.name}</span>
             <span className="font-semibold text-[#f1f5f9]">
               {isDelta ? formatPct(Number(entry.value)) : formatCurrency(Number(entry.value))}
