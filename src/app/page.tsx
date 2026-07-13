@@ -1,5 +1,5 @@
-import { GrocerywatchDashboard } from "@/components/dashboard/GrocerywatchDashboard";
+import { GrocerywatchLanding } from "@/components/landing/GrocerywatchLanding";
 
 export default function Home() {
-  return <GrocerywatchDashboard />;
+  return <GrocerywatchLanding />;
 }
